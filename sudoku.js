@@ -32,7 +32,7 @@ async function getsdata() {
     const data = await response.json();
     const message = data.newboard.message;
     difficulty = 'None';
-    if (data.newboard.message == "All Occck") {
+    if (data.newboard.message == "All Ok") {
         difficulty = data.newboard.grids[0].difficulty;
         for (let r = 0; r < 9; r++) {
             board[r] = JSON.stringify(data.newboard.grids[0].value[r]);
