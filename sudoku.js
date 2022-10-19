@@ -1,10 +1,8 @@
 var numSelected = null;
-var tileSelected = null;
-var difficulty = null;
 var errors = 0;
 
 var board = [
-    "-87491625",
+    "087491625",
     "241568379",
     "569327418",
     "758619234",
@@ -25,32 +23,30 @@ var solution = [
     "675832941",
     "812945763"
 ]
+
 const api_url = 'https://sudoku-api.vercel.app/api/dosuku';
 
 async function getsdata() {
+
     const response = await fetch(api_url);
     const data = await response.json();
-    const message = data.newboard.message;
     difficulty = 'None';
+
     if (data.newboard.message == "All Ok") {
         difficulty = data.newboard.grids[0].difficulty;
         for (let r = 0; r < 9; r++) {
-            board[r] = JSON.stringify(data.newboard.grids[0].value[r]);
-            board[r] = board[r].replace(/[,\[\]]/g,"")
-
-            board[r] = board[r].replace(/0/g,"-")
-            solution[r] = JSON.stringify(data.newboard.grids[0].solution[r]);
-            solution[r] = solution[r].replace(/[,\[\]]/g,"")
+            board[r] = data.newboard.grids[0].value[r].join('');
+            solution[r] = data.newboard.grids[0].solution[r].join('');
         }
     }
     document.getElementById("difficulty").textContent = difficulty;
+
 }
 
 
-window.onload = async function() {
-     
-    await getsdata();
+window.onload = async function () {
 
+    await getsdata();
     setGame();
 }
 
@@ -74,7 +70,7 @@ function setGame() {
             let tile = document.createElement("div");
             tile.id = r.toString() + "-" + c.toString();
 
-            if (board[r][c] != "-") {
+            if (board[r][c] != "0") {
                 tile.innerText = board[r][c];
                 tile.classList.add("tile-start");
             }
@@ -91,7 +87,7 @@ function setGame() {
     }
 }
 
-function selectNumber(){
+function selectNumber() {
     if (numSelected != null) {
         numSelected.classList.remove("number-selected");
     }
@@ -100,43 +96,45 @@ function selectNumber(){
     refresh_tile();
 }
 
-function refresh_tile(){
+function refresh_tile() {
     for (let r = 0; r < 9; r++) {
         for (let c = 0; c < 9; c++) {
             var ctid = r.toString() + "-" + c.toString();
             if (board[r][c] == numSelected.id) {
-                document.getElementById(ctid).style.color = "#ff0000"; 
+                document.getElementById(ctid).style.color = "#ff0000";
             } else {
-                document.getElementById(ctid).style.color = "initial"; 
+                document.getElementById(ctid).style.color = "initial";
             }
         }
     }
 }
 
 function selectTile() {
-    if (numSelected) {
-        if (this.innerText != "") {
+
+    if (this.innerText != "") {
+        if (numSelected) {
             numSelected.classList.remove("number-selected");
-            numSelected.id = this.innerText;
-            refresh_tile();
-            return;
+        } else {
+            numSelected = document.getElementById(this.innerText)
         }
+        numSelected.id = this.innerText;
+        refresh_tile();
+        return;
+    }
+    if (numSelected) {
 
         // "0-0" "0-1" .. "3-1"
         let coords = this.id.split("-"); //["0", "0"]
         let r = parseInt(coords[0]);
         let c = parseInt(coords[1]);
+        console.log(typeof numSelected.id)
 
         if (solution[r][c] == numSelected.id) {
             this.innerText = numSelected.id;
-            //board[r][c] = numSelected.id.toString();
-            let rboard = board[r];
-            rboard = rboard.split('');
-            rboard[c] = numSelected.id;
-            rboard = rboard.join('');
-            board[r] = rboard;
             this.style.color = "#ff0000";
-            if(JSON.stringify(board) == JSON.stringify(solution)) {
+            board[r] = board[r].substring(0, c) + numSelected.id + board[r].substring(c + 1);
+
+            if (JSON.stringify(board) == JSON.stringify(solution)) {
                 document.getElementById("digits").remove();
                 won.classList.add("won");
                 document.getElementById("won").innerText = "You won!";
