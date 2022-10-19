@@ -2,11 +2,10 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
-
 }
 
 hr {
-    max-width: 500px;
+    width: 500px;
 }
 
 #errors {
@@ -15,36 +14,38 @@ hr {
 
 #board {
     max-width: 450px;
-    aspect-ratio: 1/ 1;
+    max-height: 450px;
+
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
 }
 
 .tile {
-    width: 10%; 
-    aspect-ratio: 1/ 1;
+    width: 48px; 
+    height: 48px;
     border: 1px solid lightgray;
+    shape-outside: circle(50%);
     /* Text */
     font-size: 20px;
     font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
 }
 
 #digits {
     max-width: 450px;
-    aspect-ratio: 9 / 1;
+    max-height: 50px;
 
+    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
 }
 
 .number {
-    width: 9%; 
-    aspect-ratio: 1/ 1;
+    width: 44px; 
+    height: 44px;
     border: 1px solid black;
     margin: 2px;
     color:black;
@@ -54,7 +55,6 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 
