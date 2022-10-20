@@ -2,7 +2,7 @@ var numSelected = null;
 var errors = 0;
 
 var board = [
-    "087491625",
+    "087490625",
     "241568379",
     "569327418",
     "758619234",
@@ -40,13 +40,11 @@ async function getsdata() {
         }
     }
     document.getElementById("difficulty").textContent = difficulty;
-
 }
-
 
 window.onload = async function () {
 
-    await getsdata();
+    //await getsdata();
     setGame();
 }
 
@@ -85,13 +83,16 @@ function setGame() {
             document.getElementById("board").append(tile);
         }
     }
+    selectNumber(); 
 }
 
 function selectNumber() {
     if (numSelected != null) {
         numSelected.classList.remove("number-selected");
+        numSelected = this;
+    } else {
+        numSelected = document.getElementById("1"); // initial
     }
-    numSelected = this;
     numSelected.classList.add("number-selected");
     refresh_tile();
 }
@@ -100,7 +101,7 @@ function refresh_tile() {
     for (let r = 0; r < 9; r++) {
         for (let c = 0; c < 9; c++) {
             var ctid = r.toString() + "-" + c.toString();
-            if (board[r][c] == numSelected.id) {
+            if (board[r][c] === numSelected.id) {
                 document.getElementById(ctid).style.color = "#ff0000";
             } else {
                 document.getElementById(ctid).style.color = "initial";
@@ -112,12 +113,9 @@ function refresh_tile() {
 function selectTile() {
 
     if (this.innerText != "") {
-        if (numSelected) {
-            numSelected.classList.remove("number-selected");
-        } else {
-            numSelected = document.getElementById(this.innerText)
-        }
-        numSelected.id = this.innerText;
+        numSelected.classList.remove("number-selected");
+        numSelected = document.getElementById(this.innerText);
+        numSelected.classList.add("number-selected");
         refresh_tile();
         return;
     }
@@ -127,14 +125,13 @@ function selectTile() {
         let coords = this.id.split("-"); //["0", "0"]
         let r = parseInt(coords[0]);
         let c = parseInt(coords[1]);
-        console.log(typeof numSelected.id)
 
         if (solution[r][c] == numSelected.id) {
             this.innerText = numSelected.id;
             this.style.color = "#ff0000";
             board[r] = board[r].substring(0, c) + numSelected.id + board[r].substring(c + 1);
 
-            if (JSON.stringify(board) == JSON.stringify(solution)) {
+            if (JSON.stringify(board) === JSON.stringify(solution)) {
                 document.getElementById("digits").remove();
                 won.classList.add("won");
                 document.getElementById("won").innerText = "You won!";
