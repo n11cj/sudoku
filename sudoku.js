@@ -44,7 +44,7 @@ async function getsdata() {
 
 window.onload = async function () {
 
-    //await getsdata();
+    await getsdata();
     setGame();
 }
 
