@@ -72,6 +72,8 @@ function setGame() {
                 tile.innerText = board[r][c];
                 tile.classList.add("tile-start");
                 kb_done[board[r][c]] += 1;
+
+
             }
             if (r == 2 || r == 5) {
                 tile.classList.add("horizontal-line");
@@ -87,6 +89,7 @@ function setGame() {
     selectNumber(); 
 }
 
+
 function selectNumber() {
     if (numSelected != null) {
         numSelected.classList.remove("number-selected");
@@ -99,16 +102,11 @@ function selectNumber() {
     refresh_tile();
 }
 
-
-
 function refresh_tile(gover = false) {
     for (let r = 0; r < 9; r++) {
         for (let c = 0; c < 9; c++) {
             var ctid = r.toString() + "-" + c.toString();
-            //if (numSelected != null && board[r][c] === numSelected.id) {
-            if ( numSelected === null ) {
-                document.getElementById(ctid).classList.remove("number-selected");
-            } else if (board[r][c] === numSelected.id) {
+            if (gover == false && board[r][c] === numSelected.id) {
                 document.getElementById(ctid).classList.add("number-selected");
             } else {
                 document.getElementById(ctid).classList.remove("number-selected");
@@ -119,7 +117,7 @@ function refresh_tile(gover = false) {
 }
 
 function update_stat(){
-    var j = 0;
+    var j = 1;
     if(localStorage.getItem(difficulty) != null){
         j = parseInt(localStorage.getItem(difficulty)) + 1;
     } 
@@ -134,7 +132,6 @@ function add_number_selected() {
        }
     }
 } 
-
 
 function selectTile() {
 
@@ -156,7 +153,10 @@ function selectTile() {
             this.innerText = numSelected.id;
             this.classList.add("number-selected");
             kb_done[solution[r][c]] += 1;
-
+            if(kb_done[solution[r][c]] == 9){
+                console.log(board[r][c])
+                document.getElementById(solution[r][c]).classList.add("number-completed");
+            }
             board[r] = board[r].substring(0, c) + numSelected.id + board[r].substring(c + 1);
 
             if (JSON.stringify(board) === JSON.stringify(solution)) {
