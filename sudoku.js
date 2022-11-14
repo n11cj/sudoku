@@ -45,7 +45,7 @@ async function getsdata() {
 
 window.onload = async function () {
     //localStorage.clear();
-    //await getsdata();
+    await getsdata();
     setGame();
 }
 
@@ -72,8 +72,6 @@ function setGame() {
                 tile.innerText = board[r][c];
                 tile.classList.add("tile-start");
                 kb_done[board[r][c]] += 1;
-                
-
             }
             if (r == 2 || r == 5) {
                 tile.classList.add("horizontal-line");
@@ -88,7 +86,6 @@ function setGame() {
     }
     selectNumber(); 
 }
-
 
 function selectNumber() {
     if (numSelected != null) {
