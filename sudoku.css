@@ -22,18 +22,23 @@ hr {
 }
 
 .tile {
+    /*box-shadow:  1px 1px 2px #0000ff,
+                -1px -1px 2px #0000ff;*/
+
     width: 10%; 
     aspect-ratio: 1/ 1;
     border: 1px solid lightgray;
     /* Text */
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 125%;
+    /*font-weight: bold;*/
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-
 }
+
+
+
 
 #digits {
     max-width: 450px;
@@ -57,12 +62,16 @@ hr {
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-
 }
 
-
 .number-selected {
-    background-color: gray;
+    color: red;
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.number-completed {
+    background-color: grey;
 }
 
 .tile-start {
@@ -70,11 +79,11 @@ hr {
 }
 
 .horizontal-line {
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
 }
 
 .vertical-line {
-    border-right: 1px solid black;
+    border-right: 3px solid black;
 }
 
 .tile-num-selected{
@@ -82,9 +91,10 @@ hr {
 }
 
 .won{
-    color: yellow;
+    color: rgb(173, 173, 66);
     font-size: 40px;
     font-weight: bold;
     text-shadow: #000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px,
              #000 0px 0px 1px,   #000 0px 0px 1px,   #000 0px 0px 1px;
 }
+
